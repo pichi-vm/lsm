@@ -23,6 +23,14 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install check tools
+        uses: taiki-e/install-action@v2.90.0
+        with:
+          tool: hawkeye@6.5.0
+
+      - name: Check license headers
+        run: hawkeye check --config licenserc.toml
+
       - name: Install Rust build tools
         run: dnf install -y gcc rust cargo clippy rustfmt
 
