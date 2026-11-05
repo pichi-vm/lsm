@@ -26,13 +26,16 @@ jobs:
       - name: Install check tools
         uses: taiki-e/install-action@v2.90.0
         with:
-          tool: hawkeye@6.5.0
+          tool: hawkeye@6.5.0,cargo-deny@0.19.9
 
       - name: Check license headers
         run: hawkeye check --config licenserc.toml
 
       - name: Install Rust build tools
         run: dnf install -y gcc rust cargo clippy rustfmt
+
+      - name: Check dependency policy
+        run: cargo deny --locked --all-features check licenses sources bans
 
       - name: Check formatting
         run: cargo fmt --all -- --check
