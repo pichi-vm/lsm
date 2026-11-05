@@ -18,6 +18,8 @@ jobs:
     runs-on: ${{ matrix.runner }}
     container:
       image: fedora:43
+    env:
+      RUSTC_BOOTSTRAP: "1"
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -29,19 +31,31 @@ jobs:
           tool: hawkeye@6.5.0,cargo-deny@0.19.9,cargo-audit@0.22.2
 
       - name: Check license headers
-        run: hawkeye check --config licenserc.toml
+        run: |
+          hawkeye check --config licenserc.toml
+          hawkeye check --config policy/licenserc.toml
 
-      - name: Install Rust build tools
-        run: dnf install -y gcc rust cargo clippy rustfmt
+      - name: Install policy build tools
+        run: dnf install -y gcc rust cargo rust-src llvm-devel clippy rustfmt
 
       - name: Check dependency policy
-        run: cargo deny --locked --all-features check licenses sources bans
+        run: cargo deny --locked --workspace --all-features check licenses sources bans
 
       - name: Check known vulnerabilities
         run: cargo audit
+
+      - name: Install the BPF linker
+        run: >-
+          cargo install --locked --version '=0.13.0' --root /usr
+          --no-default-features --features llvm-21 bpf-linker
 
       - name: Check formatting
         run: cargo fmt --all -- --check
 
       - name: Check Rust
         run: cargo clippy --locked --release --all-targets -- -D warnings
+
+      - name: Check the policy
+        run: >-
+          cargo clippy --locked --release -p policy
+          --target bpfel-unknown-none -Z build-std=core -- -D warnings
