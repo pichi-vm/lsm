@@ -26,3 +26,20 @@ fn main() -> Result<(), Box<dyn Error>> {
     link.pin(pin)?;
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    #[ignore = "requires root and BPF LSM support"]
+    fn kernel_verifies_the_policy_without_attaching_it() -> Result<(), Box<dyn Error>> {
+        let mut bpf = Ebpf::load(POLICY)?;
+        let program: &mut Lsm = bpf
+            .program_mut("skip_label_cap")
+            .ok_or("object does not contain skip_label_cap")?
+            .try_into()?;
+        program.load("inode_xattr_skipcap", &Btf::from_sys_fs()?)?;
+        Ok(())
+    }
+}
