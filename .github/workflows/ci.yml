@@ -26,7 +26,7 @@ jobs:
       - name: Install check tools
         uses: taiki-e/install-action@v2.90.0
         with:
-          tool: hawkeye@6.5.0,cargo-deny@0.19.9
+          tool: hawkeye@6.5.0,cargo-deny@0.19.9,cargo-audit@0.22.2
 
       - name: Check license headers
         run: hawkeye check --config licenserc.toml
@@ -36,6 +36,9 @@ jobs:
 
       - name: Check dependency policy
         run: cargo deny --locked --all-features check licenses sources bans
+
+      - name: Check known vulnerabilities
+        run: cargo audit
 
       - name: Check formatting
         run: cargo fmt --all -- --check
