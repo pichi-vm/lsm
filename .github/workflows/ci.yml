@@ -52,7 +52,7 @@ jobs:
       - name: Check formatting
         run: cargo fmt --all -- --check
 
-      - name: Check Rust
+      - name: Check the loader
         run: cargo clippy --locked --release --all-targets -- -D warnings
 
       - name: Check the policy
