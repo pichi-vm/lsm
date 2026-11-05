@@ -8,3 +8,9 @@ publish = false
 [workspace]
 members = ["policy"]
 resolver = "3"
+
+[dependencies]
+aya = "0.14"
+
+[build-dependencies]
+aya-build = "0.2"
