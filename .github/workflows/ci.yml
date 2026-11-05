@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ ubuntu-24.04, ubuntu-24.04-arm ]
+    runs-on: ${{ matrix.runner }}
+    container:
+      image: fedora:43
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Rust build tools
+        run: dnf install -y gcc rust cargo clippy rustfmt
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Check Rust
+        run: cargo clippy --locked --release --all-targets -- -D warnings
