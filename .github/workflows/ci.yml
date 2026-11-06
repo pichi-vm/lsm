@@ -39,6 +39,8 @@ jobs:
       - name: Install policy build tools
         run: dnf install -y gcc rust cargo rust-src llvm-devel clippy rustfmt
 
+      - uses: Swatinem/rust-cache@v2
+
       - name: Check dependency policy
         run: cargo deny --locked --workspace --all-features check licenses sources bans
 
@@ -46,9 +48,10 @@ jobs:
         run: cargo audit
 
       - name: Install the BPF linker
-        run: >-
-          cargo install --locked --version '=0.13.0' --root /usr
-          --no-default-features --features llvm-21 bpf-linker
+        run: |
+          cargo install --locked --version '=0.13.0' \
+            --no-default-features --features llvm-21 bpf-linker
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
 
       - name: Check formatting
         run: cargo fmt --all -- --check
