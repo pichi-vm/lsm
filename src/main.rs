@@ -12,7 +12,7 @@ const POLICY: &[u8] = aya::include_bytes_aligned!(concat!(env!("OUT_DIR"), "/pol
 fn main() -> Result<(), Box<dyn Error>> {
     let arguments: Vec<_> = std::env::args_os().skip(1).collect();
     let [pin] = arguments.as_slice() else {
-        return Err("usage: lsm PIN".into());
+        return Err("usage: pichi-lsm PIN".into());
     };
     let mut bpf = Ebpf::load(POLICY)?;
     let program: &mut Lsm = bpf
