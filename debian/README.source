@@ -28,8 +28,9 @@ Build prepared source offline with dpkg-buildpackage -b -us -uc.
 The package is named pichi-lsm because Ubuntu's lsm package is an
 unrelated connectivity monitor. It installs /usr/libexec/pichi-lsm,
 including the BPF policy embedded by the existing build.rs. Its
-pichi-lsm.service owns policy startup and is required by
-Conglobate's service. Installation does not enable or start either service.
+pichi-lsm.service owns policy startup. The appliance configures dependencies
+and ordering for its consumers. Installation does not enable or start the
+service.
 
 Source preparation includes pinned bpf-linker 0.13.0 source and vendors its
 dependencies plus Rust 1.93/1.97 library dependencies, as in Arma. The build
