@@ -12,8 +12,8 @@ Main snapshots are built for `amd64`/`x86_64` and `arm64`/`aarch64` in
 and [`ppa:nmccallum/pichi`](https://launchpad.net/~nmccallum/+archive/ubuntu/pichi).
 The package name is `pichi-lsm`. These are guest packages for releases with
 kernel 7.0 or newer. The package owns `/usr/libexec/pichi-lsm` and
-`pichi-lsm.service`; Conglobate requires this service to load the policy
-before starting a build. Installing the package does not start the service.
+`pichi-lsm.service`. The appliance configures consumers to require and run
+after the policy service. Installing the package does not start the service.
 
 COPR tracks `main`, uses `packaging/lsm.spec`, and runs the
 `.copr/Makefile` source-RPM target. GitHub pushes prepared Debian source to
