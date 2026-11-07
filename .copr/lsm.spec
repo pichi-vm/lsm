@@ -34,7 +34,7 @@ cargo build --locked --release --bin pichi-lsm
 
 %install
 install -Dpm0755 target/release/pichi-lsm %{buildroot}%{_libexecdir}/pichi-lsm
-install -Dpm0644 packaging/systemd/pichi-lsm.service %{buildroot}%{_unitdir}/pichi-lsm.service
+install -Dpm0644 .copr/systemd/pichi-lsm.service %{buildroot}%{_unitdir}/pichi-lsm.service
 
 find .cargo-home -type f \( -iname 'license*' -o -iname 'licence*' -o \
     -iname 'copying*' -o -iname 'notice*' -o -iname 'copyright*' \) \

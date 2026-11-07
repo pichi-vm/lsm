@@ -20,7 +20,7 @@ override_dh_auto_test:
 
 override_dh_auto_install:
 	install -Dm0755 target/release/pichi-lsm debian/pichi-lsm/usr/libexec/pichi-lsm
-	install -Dm0644 packaging/systemd/pichi-lsm.service debian/pichi-lsm/usr/lib/systemd/system/pichi-lsm.service
+	install -Dm0644 .copr/systemd/pichi-lsm.service debian/pichi-lsm/usr/lib/systemd/system/pichi-lsm.service
 
 override_dh_installsystemd:
 	dh_installsystemd --no-enable --no-start

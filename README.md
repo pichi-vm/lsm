@@ -15,6 +15,6 @@ kernel 7.0 or newer. The package owns `/usr/libexec/pichi-lsm` and
 `pichi-lsm.service`. The appliance configures consumers to require and run
 after the policy service. Installing the package does not start the service.
 
-COPR tracks `main`, uses `packaging/lsm.spec`, and runs the
+COPR tracks `main`, uses `.copr/lsm.spec`, and runs the
 `.copr/Makefile` source-RPM target. GitHub pushes prepared Debian source to
 Launchpad; see [debian/README.source](debian/README.source) for that process.
