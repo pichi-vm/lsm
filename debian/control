@@ -1,0 +1,14 @@
+Source: pichi-lsm
+Section: admin
+Priority: optional
+Maintainer: Nathaniel McCallum <nathaniel@mccallum.life>
+Build-Depends: debhelper-compat (= 13), cargo (>= 1.93), rustc (>= 1.93), rust-src (>= 1.93), llvm-22-dev, g++, systemd-dev
+Standards-Version: 4.7.2
+Homepage: https://github.com/pichi-vm/lsm
+Rules-Requires-Root: no
+
+Package: pichi-lsm
+Architecture: amd64 arm64
+Depends: ${shlibs:Depends}, ${misc:Depends}, systemd
+Description: bpf lsm helper for conglobate filesystem labels
+ BPF LSM helper for Conglobate filesystem labels.

@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+
+export CARGO_HOME = $(CURDIR)/debian/cargo-home
+export CARGO_NET_OFFLINE = true
+export RUSTC_BOOTSTRAP = 1
+export PATH := $(CURDIR)/target/release:/usr/lib/llvm-22/bin:$(PATH)
+export CARGO_TARGET_DIR = $(CURDIR)/target
+
+%:
+	dh $@ --buildsystem=none
+
+override_dh_auto_build:
+	cp .cargo/vendor.toml .cargo/config.toml
+	cargo build --frozen --release --manifest-path .cargo/bpf-linker/Cargo.toml --no-default-features --features llvm-22
+	cargo build --frozen --release --bin pichi-lsm
+
+override_dh_auto_test:
+	! target/release/pichi-lsm 2> target/usage.txt
+	grep -q "usage: pichi-lsm PIN" target/usage.txt
+
+override_dh_auto_install:
+	install -Dm0755 target/release/pichi-lsm debian/pichi-lsm/usr/libexec/pichi-lsm
+	install -Dm0644 packaging/systemd/pichi-lsm.service debian/pichi-lsm/usr/lib/systemd/system/pichi-lsm.service
+
+override_dh_installsystemd:
+	dh_installsystemd --no-enable --no-start
+
+override_dh_installdocs:
+	dh_installdocs README.md LICENSE policy/LICENSE.BSD-2-Clause
+	find vendor -type f \( -iname 'license*' -o -iname 'licence*' -o \
+	    -iname 'copying*' -o -iname 'notice*' -o -iname 'copyright*' \) \
+	    -exec install -Dm0644 '{}' 'debian/pichi-lsm/usr/share/doc/pichi-lsm/dependency-licenses/{}' \;
+
+override_dh_auto_clean:
+	rm -rf target debian/cargo-home
+	rm -f .cargo/config.toml
+
+# Cargo checksums include vendored Cargo.toml.orig files.
+override_dh_clean:
+	dh_clean -Xvendor/

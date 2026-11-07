@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Advanced Micro Devices, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+[Unit]
+Description=Pichi filesystem-label policy
+RequiresMountsFor=/sys/fs/bpf
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/pichi-lsm /sys/fs/bpf/pichi-lsm
+RemainAfterExit=yes
