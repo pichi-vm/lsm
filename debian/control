@@ -10,5 +10,5 @@ Rules-Requires-Root: no
 Package: pichi-lsm
 Architecture: amd64 arm64
 Depends: ${shlibs:Depends}, ${misc:Depends}, systemd
-Description: bpf lsm helper for conglobate filesystem labels
- BPF LSM helper for Conglobate filesystem labels.
+Description: allow SELinux labeling in user namespaces
+ Allows image builders to set SELinux labels inside user namespaces.
