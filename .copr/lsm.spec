@@ -1,7 +1,7 @@
 Name:           pichi-lsm
 Version:        0.1.0~dev
 Release:        1%{?buildtag}%{?dist}
-Summary:        BPF LSM helper for Conglobate filesystem labels
+Summary:        Allow SELinux labeling in user namespaces
 
 License:        Apache-2.0 AND MIT AND BSD-3-Clause AND Unicode-3.0 AND Zlib AND (GPL-2.0-only OR BSD-2-Clause)
 URL:            https://github.com/pichi-vm/lsm
@@ -19,7 +19,7 @@ BuildRequires:  gcc-c++
 Requires:       systemd
 
 %description
-BPF LSM helper for Conglobate filesystem labels.
+Allows image builders to set SELinux labels inside user namespaces.
 
 %prep
 %autosetup
